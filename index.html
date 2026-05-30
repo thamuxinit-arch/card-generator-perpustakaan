@@ -70,7 +70,6 @@
       font-size: 14px;
     }
     
-    /* LAYOUT KARTU - Ukuran baru 51mm agar muat 4 kolom di A4 */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(4, 51mm);
@@ -98,7 +97,6 @@
     .bg-rt14 { background: linear-gradient(135deg, #26A69A, #00695C); }
     .bg-rt15 { background: linear-gradient(135deg, #556B2F, #2F4F1F); }
     
-    /* Kartu utama - ukuran 51mm x 81mm (proporsional) */
     .card {
       width: 51mm;
       height: 81mm;
@@ -177,7 +175,7 @@
       margin-top: 4px;
     }
     
-    /* ========== ATURAN CETAK PDF ========== */
+    /* ========== CETAK DENGAN MARGIN KECIL (0.2cm) ========== */
     @media print {
       body {
         background: white;
@@ -206,17 +204,16 @@
         break-inside: avoid;
       }
       
-      /* Paksa warna background */
       * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         color-adjust: exact !important;
       }
       
-      /* Margin kertas kecil tapi aman */
+      /* MARGIN SANGAT KECIL (0.2cm) */
       @page {
         size: A4;
-        margin: 0.5cm;
+        margin: 0.2cm;
       }
     }
     
@@ -246,7 +243,7 @@
     <option value="Batch-4">Batch 4</option>
   </select>
   <button onclick="loadData()">📋 Tampilkan Kartu</button>
-  <button class="print-btn" onclick="window.print()">🖨️ Cetak PDF (4x4 per halaman)</button>
+  <button class="print-btn" onclick="window.print()">🖨️ Cetak PDF</button>
   <div class="info" id="infoPanel">Belum ada data</div>
 </div>
 
@@ -313,7 +310,7 @@
     }
     
     container.innerHTML = html;
-    infoPanel.innerHTML = `✅ Jumlah kartu: ${anakList.length} kartu (4x4 per halaman)`;
+    infoPanel.innerHTML = `✅ ${anakList.length} kartu (margin 0.2cm)`;
   }
   
   async function loadData() {
@@ -327,7 +324,6 @@
     }
     
     const filtered = data.filter(item => item.Batch === batch);
-    console.log('Batch:', batch, 'Jumlah:', filtered.length);
     renderCards(filtered);
   }
   
