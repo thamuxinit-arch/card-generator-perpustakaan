@@ -17,6 +17,7 @@
       background: #e0e0e0;
     }
     
+    /* Kontrol di web (tidak ikut cetak) */
     .controls {
       background: white;
       padding: 20px;
@@ -70,16 +71,18 @@
       font-size: 14px;
     }
     
+    /* LAYOUT KARTU DI WEB (sama seperti cetak) */
     .card-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
+      display: grid;
+      grid-template-columns: repeat(4, 54mm);
+      justify-content: center;
+      gap: 5px;
       background: white;
-      padding: 20px;
+      padding: 5px;
       border-radius: 20px;
-      gap: 10px;
     }
     
+    /* Warna per RT */
     .bg-rt01 { background: linear-gradient(135deg, #3498db, #2980b9); }
     .bg-rt02 { background: linear-gradient(135deg, #2ecc71, #27ae60); }
     .bg-rt03 { background: linear-gradient(135deg, #FFD700, #D4AC0D); }
@@ -96,20 +99,21 @@
     .bg-rt14 { background: linear-gradient(135deg, #26A69A, #00695C); }
     .bg-rt15 { background: linear-gradient(135deg, #556B2F, #2F4F1F); }
     
+    /* Kartu utama */
     .card {
       width: 54mm;
       height: 86mm;
       border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       text-align: center;
       color: white;
       position: relative;
       overflow: hidden;
       page-break-inside: avoid;
       break-inside: avoid;
-      display: inline-block;
     }
     
+    /* Efek bintang */
     .card::before {
       content: "✦ ✦ ✦";
       position: absolute;
@@ -175,35 +179,46 @@
       margin-top: 5px;
     }
     
+    /* ========== ATURAN CETAK PDF (4x4, margin kecil) ========== */
     @media print {
       body {
         background: white;
         padding: 0;
         margin: 0;
       }
+      
       .controls {
         display: none !important;
       }
+      
       .card-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        padding: 10px;
-        gap: 10px;
+        display: grid !important;
+        grid-template-columns: repeat(4, 54mm) !important;
+        justify-content: center !important;
+        gap: 5px !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+        background: white;
       }
+      
       .card {
         box-shadow: none;
-        border: 1px solid #ddd;
+        border: 0.5px solid #ddd;
         page-break-inside: avoid;
         break-inside: avoid;
       }
+      
+      /* Paksa warna background */
       * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        color-adjust: exact !important;
       }
+      
+      /* Margin kertas: atas, kanan, bawah, kiri */
       @page {
         size: A4;
-        margin: 0.5cm;
+        margin: 0.3cm;
       }
     }
     
@@ -233,7 +248,7 @@
     <option value="Batch-4">Batch 4</option>
   </select>
   <button onclick="loadData()">📋 Tampilkan Kartu</button>
-  <button class="print-btn" onclick="window.print()">🖨️ Cetak PDF (Semua Kartu)</button>
+  <button class="print-btn" onclick="window.print()">🖨️ Cetak PDF (4x4 per halaman)</button>
   <div class="info" id="infoPanel">Belum ada data</div>
 </div>
 
@@ -300,7 +315,7 @@
     }
     
     container.innerHTML = html;
-    infoPanel.innerHTML = `✅ Jumlah kartu: ${anakList.length} kartu (siap cetak)`;
+    infoPanel.innerHTML = `✅ Jumlah kartu: ${anakList.length} kartu (siap cetak 4x4 per halaman)`;
   }
   
   async function loadData() {
