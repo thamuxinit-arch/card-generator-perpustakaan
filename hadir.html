@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Kehadiran - Perpustakaan Keliling</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #27ae60, #1e8449);
+      color: white;
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 25px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+    }
+    
+    .back-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .header h1 {
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+    
+    .header p {
+      opacity: 0.9;
+      font-size: 13px;
+    }
+    
+    /* Date Chips */
+    .date-section {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .date-section h3 {
+      margin-bottom: 15px;
+      color: #2c3e50;
+      font-size: 16px;
+    }
+    
+    .date-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .date-chip {
+      background: #ecf0f1;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    
+    .date-chip:hover {
+      background: #d5dbdb;
+    }
+    
+    .date-chip.active {
+      background: #27ae60;
+      color: white;
+    }
+    
+    /* Form Panel */
+    .form-panel {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ecf0f1;
+    }
+    
+    .form-header h3 {
+      color: #2c3e50;
+    }
+    
+    .badge-tanggal {
+      background: #e8f4f8;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #27ae60;
+    }
+    
+    .rt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .rt-card {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 15px;
+      border-left: 5px solid;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .rt-card .rt-name {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    
+    .rt-card .rt-emoji {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+    
+    .rt-card input {
+      width: 80px;
+      padding: 10px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    
+    /* Warna border per RT */
+    .rt-card.rt01 { border-left-color: #3498db; }
+    .rt-card.rt02 { border-left-color: #2ecc71; }
+    .rt-card.rt03 { border-left-color: #f1c40f; }
+    .rt-card.rt04 { border-left-color: #e74c3c; }
+    .rt-card.rt05 { border-left-color: #e67e22; }
+    .rt-card.rt06 { border-left-color: #1abc9c; }
+    .rt-card.rt07 { border-left-color: #9b59b6; }
+    .rt-card.rt08 { border-left-color: #34495e; }
+    
+    .btn-save {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 14px 25px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    .btn-save:hover {
+      background: #219a52;
+    }
+    
+    .btn-save:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+    }
+    
+    .info-message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .info-success { background: #d5f4e6; color: #27ae60; }
+    .info-error { background: #fdedec; color: #e74c3c; }
+    .info-loading { background: #e8f4f8; color: #2980b9; }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #7f8c8d;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <a href="index.html" class="back-btn">← Kembali</a>
+    <h1>📝 Input Kehadiran</h1>
+    <p>Catat jumlah anak yang hadir per RT</p>
+  </div>
+  
+  <div class="date-section">
+    <h3>📅 Pilih Tanggal Kehadiran</h3>
+    <div class="date-chips" id="dateChips">
+      <div class="loading">Memuat daftar tanggal...</div>
+    </div>
+  </div>
+  
+  <div class="form-panel" id="formPanel" style="display: none;">
+    <div class="form-header">
+      <h3>📝 Input Jumlah Kehadiran</h3>
+      <span class="badge-tanggal" id="selectedDateLabel">-</span>
+    </div>
+    <div class="rt-grid" id="rtGrid"></div>
+    <button class="btn-save" id="saveBtn" onclick="simpanKehadiran()">💾 Simpan Kehadiran</button>
+    <div id="infoMessage" class="info-message"></div>
+  </div>
+</div>
+
+<script>
+  // ========== KONFIGURASI ==========
+  const API_BASE = 'https://sheetdb.io/api/v1/cyxun7dlxc9vt';
+  
+  // Daftar RT (sesuaikan dengan yang ada)
+  const DAFTAR_RT = ['RT01', 'RT02', 'RT03', 'RT04', 'RT05', 'RT06', 'RT07', 'RT08'];
+  
+  const EMOJI_RT = {
+    'RT01': '🦁', 'RT02': '🐘', 'RT03': '🦒', 'RT04': '🦓',
+    'RT05': '🐿️', 'RT06': '🦌', 'RT07': '🐼', 'RT08': '🐧'
+  };
+  
+  // State
+  let semuaKehadiran = [];
+  let tanggalTerpilih = null;
+  let dataKehadiranTerpilih = null;
+  
+  // ========== AMBIL DATA KEHADIRAN ==========
+  async function fetchKehadiran() {
+    try {
+      const response = await fetch(`${API_BASE}?sheet=kehadiran`);
+      const data = await response.json();
+      semuaKehadiran = data;
+      return data;
+    } catch (error) {
+      console.error('Gagal ambil data kehadiran:', error);
+      return [];
+    }
+  }
+  
+  // ========== TAMPILKAN CHIP TANGGAL ==========
+  async function renderDateChips() {
+    const container = document.getElementById('dateChips');
+    container.innerHTML = '<div class="loading">🔄 Memuat daftar tanggal...</div>';
+    
+    let data = semuaKehadiran;
+    if (data.length === 0) data = await fetchKehadiran();
+    
+    const tanggalList = [...new Set(data.map(item => item.Tanggal).filter(t => t))];
+    
+    if (tanggalList.length === 0) {
+      container.innerHTML = '<div class="loading">⚠️ Belum ada jadwal. Hubungi Tim KKN.</div>';
+      return;
+    }
+    
+    tanggalList.sort((a, b) => new Date(a) - new Date(b));
+    
+    let html = '';
+    for (const tgl of tanggalList) {
+      const formatted = formatTanggal(tgl);
+      html += `<div class="date-chip" onclick="pilihTanggal('${tgl}')" data-tanggal="${tgl}">${formatted}</div>`;
+    }
+    container.innerHTML = html;
+    
+    if (tanggalList.length > 0 && !tanggalTerpilih) {
+      pilihTanggal(tanggalList[0]);
+    }
+  }
+  
+  // ========== PILIH TANGGAL ==========
+  async function pilihTanggal(tanggal) {
+    document.querySelectorAll('.date-chip').forEach(chip => {
+      if (chip.getAttribute('data-tanggal') === tanggal) chip.classList.add('active');
+      else chip.classList.remove('active');
+    });
+    
+    tanggalTerpilih = tanggal;
+    document.getElementById('selectedDateLabel').innerText = formatTanggal(tanggal);
+    document.getElementById('formPanel').style.display = 'block';
+    
+    let data = semuaKehadiran;
+    if (data.length === 0) data = await fetchKehadiran();
+    
+    dataKehadiranTerpilih = data.find(item => item.Tanggal === tanggal) || null;
+    renderRTForm();
+  }
+  
+  // ========== RENDER FORM INPUT RT ==========
+  function renderRTForm() {
+    const container = document.getElementById('rtGrid');
+    let html = '';
+    for (const rt of DAFTAR_RT) {
+      const emoji = EMOJI_RT[rt] || '📚';
+      const nilai = dataKehadiranTerpilih ? (parseInt(dataKehadiranTerpilih[rt]) || 0) : 0;
+      html += `
+        <div class="rt-card ${rt.toLowerCase()}">
+          <div><span class="rt-emoji">${emoji}</span> <span class="rt-name">${rt}</span></div>
+          <input type="number" id="input_${rt}" value="${nilai}" min="0" placeholder="0">
+        </div>
+      `;
+    }
+    container.innerHTML = html;
+  }
+  
+  // ========== SIMPAN KEHADIRAN ==========
+  async function simpanKehadiran() {
+    if (!tanggalTerpilih) {
+      alert('Pilih tanggal terlebih dahulu');
+      return;
+    }
+    
+    const btn = document.getElementById('saveBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Menyimpan...';
+    showMessage('Menyimpan data...', 'loading');
+    
+    const dataBaru = { Tanggal: tanggalTerpilih };
+    for (const rt of DAFTAR_RT) {
+      const input = document.getElementById(`input_${rt}`);
+      dataBaru[rt] = parseInt(input.value) || 0;
+    }
+    
+    let total = 0;
+    for (const rt of DAFTAR_RT) total += dataBaru[rt];
+    dataBaru.Total = total;
+    
+    try {
+      const existing = semuaKehadiran.find(item => item.Tanggal === tanggalTerpilih);
+      
+      if (existing) {
+        await fetch(`${API_BASE}/Tanggal/${encodeURIComponent(tanggalTerpilih)}?sheet=kehadiran`, {
+          method: 'DELETE'
+        });
+      }
+      
+      const response = await fetch(`${API_BASE}?sheet=kehadiran`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataBaru)
+      });
+      
+      if (!response.ok) throw new Error('Gagal simpan');
+      
+      await fetchKehadiran();
+      dataKehadiranTerpilih = semuaKehadiran.find(item => item.Tanggal === tanggalTerpilih);
+      renderRTForm();
+      showMessage(`✅ Berhasil! Total: ${total} anak hadir.`, 'success');
+      
+    } catch (error) {
+      showMessage('❌ Gagal menyimpan: ' + error.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '💾 Simpan Kehadiran';
+    }
+  }
+  
+  // ========== FORMAT TANGGAL ==========
+  function formatTanggal(dateString) {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString;
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  }
+  
+  function showMessage(msg, type) {
+    const el = document.getElementById('infoMessage');
+    el.textContent = msg;
+    el.className = `info-message info-${type}`;
+    if (type !== 'loading') {
+      setTimeout(() => {
+        if (el.textContent === msg) {
+          el.textContent = '';
+          el.className = 'info-message';
+        }
+      }, 3000);
+    }
+  }
+  
+  // ========== INISIALISASI ==========
+  window.addEventListener('DOMContentLoaded', async () => {
+    await fetchKehadiran();
+    await renderDateChips();
+  });
+</script>
+</body>
+</html>
