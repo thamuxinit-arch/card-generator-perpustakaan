@@ -17,7 +17,6 @@
       background: #e0e0e0;
     }
     
-    /* Kontrol di web (tidak ikut cetak) */
     .controls {
       background: white;
       padding: 20px;
@@ -71,12 +70,12 @@
       font-size: 14px;
     }
     
-    /* LAYOUT KARTU DI WEB (sama seperti cetak) */
+    /* LAYOUT KARTU - Ukuran baru 51mm agar muat 4 kolom di A4 */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(4, 54mm);
+      grid-template-columns: repeat(4, 51mm);
       justify-content: center;
-      gap: 5px;
+      gap: 4px;
       background: white;
       padding: 5px;
       border-radius: 20px;
@@ -99,11 +98,11 @@
     .bg-rt14 { background: linear-gradient(135deg, #26A69A, #00695C); }
     .bg-rt15 { background: linear-gradient(135deg, #556B2F, #2F4F1F); }
     
-    /* Kartu utama */
+    /* Kartu utama - ukuran 51mm x 81mm (proporsional) */
     .card {
-      width: 54mm;
-      height: 86mm;
-      border-radius: 12px;
+      width: 51mm;
+      height: 81mm;
+      border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       text-align: center;
       color: white;
@@ -113,23 +112,22 @@
       break-inside: avoid;
     }
     
-    /* Efek bintang */
     .card::before {
       content: "✦ ✦ ✦";
       position: absolute;
       top: 5px;
       left: 0;
       right: 0;
-      font-size: 10px;
+      font-size: 9px;
       opacity: 0.25;
-      letter-spacing: 5px;
+      letter-spacing: 4px;
     }
     
     .header {
       background: rgba(255,255,255,0.2);
-      padding: 6px 0;
-      margin-top: 12px;
-      font-size: 9px;
+      padding: 5px 0;
+      margin-top: 8px;
+      font-size: 8px;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -138,48 +136,48 @@
     .badge {
       background: rgba(255,255,255,0.3);
       border-radius: 20px;
-      padding: 5px 10px;
-      margin: 10px auto;
+      padding: 4px 8px;
+      margin: 8px auto;
       width: fit-content;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
       font-family: monospace;
     }
     
     .nama {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
-      margin: 12px 10px;
+      margin: 10px 8px;
       background: rgba(0,0,0,0.15);
-      padding: 6px;
+      padding: 5px;
       border-radius: 8px;
       word-wrap: break-word;
     }
     
     .rt {
-      font-size: 11px;
-      margin: 8px 0;
+      font-size: 10px;
+      margin: 6px 0;
       background: rgba(255,255,255,0.2);
       display: inline-block;
-      padding: 3px 10px;
+      padding: 2px 8px;
       border-radius: 20px;
     }
     
     .footer {
       position: absolute;
-      bottom: 8px;
+      bottom: 6px;
       left: 0;
       right: 0;
-      font-size: 7px;
+      font-size: 6px;
       opacity: 0.7;
     }
     
     .emoji {
-      font-size: 28px;
-      margin-top: 5px;
+      font-size: 24px;
+      margin-top: 4px;
     }
     
-    /* ========== ATURAN CETAK PDF (4x4, margin kecil) ========== */
+    /* ========== ATURAN CETAK PDF ========== */
     @media print {
       body {
         background: white;
@@ -193,9 +191,9 @@
       
       .card-grid {
         display: grid !important;
-        grid-template-columns: repeat(4, 54mm) !important;
+        grid-template-columns: repeat(4, 51mm) !important;
         justify-content: center !important;
-        gap: 5px !important;
+        gap: 4px !important;
         padding: 0 !important;
         margin: 0 auto !important;
         background: white;
@@ -215,10 +213,10 @@
         color-adjust: exact !important;
       }
       
-      /* Margin kertas: atas, kanan, bawah, kiri */
+      /* Margin kertas kecil tapi aman */
       @page {
         size: A4;
-        margin: 0.3cm;
+        margin: 0.5cm;
       }
     }
     
@@ -315,7 +313,7 @@
     }
     
     container.innerHTML = html;
-    infoPanel.innerHTML = `✅ Jumlah kartu: ${anakList.length} kartu (siap cetak 4x4 per halaman)`;
+    infoPanel.innerHTML = `✅ Jumlah kartu: ${anakList.length} kartu (4x4 per halaman)`;
   }
   
   async function loadData() {
