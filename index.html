@@ -17,7 +17,6 @@
       background: #e0e0e0;
     }
     
-    /* ========== TOMBOL DAN KONTROL ========== */
     .controls {
       background: white;
       padding: 20px;
@@ -50,7 +49,6 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s;
     }
     
     .controls button:hover {
@@ -72,7 +70,6 @@
       font-size: 14px;
     }
     
-    /* ========== LAYOUT KARTU ========== */
     .card-grid {
       display: flex;
       flex-wrap: wrap;
@@ -83,7 +80,6 @@
       gap: 10px;
     }
     
-    /* Kelas warna per RT (gradien) */
     .bg-rt01 { background: linear-gradient(135deg, #3498db, #2980b9); }
     .bg-rt02 { background: linear-gradient(135deg, #2ecc71, #27ae60); }
     .bg-rt03 { background: linear-gradient(135deg, #FFD700, #D4AC0D); }
@@ -100,7 +96,6 @@
     .bg-rt14 { background: linear-gradient(135deg, #26A69A, #00695C); }
     .bg-rt15 { background: linear-gradient(135deg, #556B2F, #2F4F1F); }
     
-    /* Kartu utama */
     .card {
       width: 54mm;
       height: 86mm;
@@ -115,7 +110,6 @@
       display: inline-block;
     }
     
-    /* Efek bintang-bintang kecil */
     .card::before {
       content: "✦ ✦ ✦";
       position: absolute;
@@ -181,18 +175,15 @@
       margin-top: 5px;
     }
     
-    /* ========== ATURAN CETAK PDF (DENGAN WARNA) ========== */
     @media print {
       body {
         background: white;
         padding: 0;
         margin: 0;
       }
-      
       .controls {
         display: none !important;
       }
-      
       .card-grid {
         display: flex;
         flex-wrap: wrap;
@@ -200,21 +191,16 @@
         padding: 10px;
         gap: 10px;
       }
-      
       .card {
         box-shadow: none;
         border: 1px solid #ddd;
         page-break-inside: avoid;
         break-inside: avoid;
       }
-      
-      /* INI PENTING: MEMAKSA WARNA BACKGROUND TETAP MUNCUL */
       * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        color-adjust: exact !important;
       }
-      
       @page {
         size: A4;
         margin: 0.5cm;
@@ -256,9 +242,8 @@
 </div>
 
 <script>
-  // ========== KONFIGURASI ==========
-  // Ganti dengan API endpoint SheetDB Anda!
-  const API_URL = 'https://sheetdb.io/api/v1/cyxun7dlxc9vt';  // <— GANTI INI!
+  // GANTI DENGAN URL SHEETDB ANDA!
+  const API_URL = 'https://sheetdb.io/api/v1/cyxun7dlxc9vt';
   
   function getEmoji(rt) {
     const emojiMap = {
@@ -329,7 +314,7 @@
     }
     
     const filtered = data.filter(item => item.Batch === batch);
-    console.log(`Batch: ${batch}, Data: ${filtered.length} anak`);
+    console.log('Batch:', batch, 'Jumlah:', filtered.length);
     renderCards(filtered);
   }
   
